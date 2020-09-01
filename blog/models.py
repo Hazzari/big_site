@@ -3,6 +3,13 @@ from django.db import models
 from django.utils import timezone
 
 
+class PublishManager(models.Manager):
+    # Менеджер модели по умолчанию для .all()
+    def get_queryset(self):
+        # делаем фильтрованный запрос
+        return super().get_queryset().filter(status='published')
+
+
 class Post(models.Model):
     # Список статусов
     STATUS_CHOICES = (
@@ -26,6 +33,11 @@ class Post(models.Model):
     updated = models.DateTimeField(auto_now=True)
     # статус статьи ( на выбор 2 варианта
     status = models.CharField(choices=STATUS_CHOICES, max_length=50, default='draft')
+    # Менеджер по умолчанию
+    objects = models.Manager()
+    # Новый менеджер published
+    published = PublishManager()
+
 
     class Meta:
         # Порядок сортировки статей убывающий (последние будут первыми)
