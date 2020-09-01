@@ -38,7 +38,6 @@ class Post(models.Model):
     # Новый менеджер published
     published = PublishManager()
 
-
     class Meta:
         # Порядок сортировки статей убывающий (последние будут первыми)
         ordering = ('-publish',)
