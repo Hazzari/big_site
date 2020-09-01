@@ -6,8 +6,7 @@ services:
     ports:
       - 6379:6379
     volumes:
-    - ./db_data/redis:/var/lib/redis
-
+    - ./db_data/redis:/data/
   big_site_db:
     image: postgres
     container_name: big_site_db
