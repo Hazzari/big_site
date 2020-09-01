@@ -322,3 +322,5 @@ $RECYCLE.BIN/
 
 ### GPG template
 secring.*
+/db_data/
+/probe.py

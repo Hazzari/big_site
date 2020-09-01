@@ -15,7 +15,7 @@ import environ
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
-### РАЗДЕЛ РАБОТЫ С .env НАЧАЛО
+# ## РАЗДЕЛ РАБОТЫ С .env НАЧАЛО
 
 env = environ.Env(
     # set casting, default value
@@ -23,7 +23,6 @@ env = environ.Env(
 )
 
 # reading .env file
-
 environ.Env.read_env()
 
 # add to env file host ALLOWED_HOSTS=*.aleksan.site,aleksan.site
@@ -48,7 +47,7 @@ DATABASES = {
 #     'redis': env.cache('REDIS_URL')
 # }
 
-### РАЗДЕЛ РАБОТЫ С .env КОНЕЦ
+# ## РАЗДЕЛ РАБОТЫ С .env КОНЕЦ
 
 # Application definition
 
