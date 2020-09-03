@@ -1,35 +1,41 @@
 from django.core.mail import send_mail
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
+from taggit.models import Tag
 
 from .form import EmailPostForm, CommentForm
 from .models import Post, Comment
 
 
+def post_list(request, tag_slug=None):
+    # tag_slug: Передается через ссылку URL
+    # получаем все записи из базы данных
+    # (применяя менеджер модели получаем только 'published')
+    object_list = Post.published.all()
+    tag = None
+    if tag_slug:
+        #
+        tag = get_object_or_404(Tag, slug=tag_slug)
+        object_list = object_list.filter(tags__in=[tag])
+
+    paginator = Paginator(object_list, 3)  # по 3 статьи на каждой странице
+
+    # Получаем номер строки из - url
+    page = request.GET.get('page')
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # Если страница не является целым числом, возвращаем первую страницу.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # Если номер страницы больше, чем общее количество страниц, возвращаем последнюю страницу.
+        posts = paginator.page(paginator.num_pages)
+    return render(request, 'blog/post/list.html', {'page': page, 'posts': posts, 'tag': tag})
+
+
 class PostListView(ListView):
-    """
-    # TODO: Вариант с использованием функций:
-
-    # def post_list(request):
-    #     # получаем все записи из базы данных
-    #     # (применяя менеджер модели получаем только 'published')
-    #     object_list = Post.published.all()
-    #     paginator = Paginator(object_list, 3)  # по 3 статьи на каждой странице
-    #
-    #     # Получаем номер строки из - url
-    #     page = request.GET.get('page')
-    #
-    #     try:
-    #         posts = paginator.page(page)
-    #     except PageNotAnInteger:
-    #         # Если страница не является целым числом, возвращаем первую страницу.
-    #         posts = paginator.page(1)
-    #     except EmptyPage:
-    #         # Если номер страницы больше, чем общее количество страниц, возвращаем последнюю страницу.
-    #         posts = paginator.page(paginator.num_pages)
-    #     return render(request, 'blog/post/list.html', {'page': page, 'posts': posts})
-
-    """
     # Используем переопределенный менеджер модели, для получения обычного
     queryset = Post.published.all()  # ListView
     context_object_name = 'posts'
@@ -56,8 +62,6 @@ def post_detail(request, year, month, day, post):
             # Создаем комментарий, но пока не сохраняем в БД(commit=False).
             new_comment = comment_form.save(commit=False)
             # Привязываем комментарий к текущей статье.
-            # TODO: удалить print
-            print(f"post ================= {post}")
             new_comment.post = post
             # Сохраняем комментарий в базе данных.
             new_comment.save()

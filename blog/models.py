@@ -3,6 +3,8 @@ from django.db import models
 from django.utils import timezone
 from django.urls import reverse
 
+from taggit.managers import TaggableManager
+
 
 class PublishManager(models.Manager):
     # Менеджер модели по умолчанию для .all()
@@ -17,6 +19,8 @@ class Post(models.Model):
         ('draft', 'Черновик'),
         ('published', 'Опубликована'),
     )
+
+    tags = TaggableManager()
 
     # Заголовок статьи
     title = models.CharField(max_length=50)
