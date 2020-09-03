@@ -55,3 +55,24 @@ class Post(models.Model):
 
     def __repr__(self):
         return self.title
+
+
+class Comment(models.Model):
+    # для привязки к определенной статье ( один ко многим) одна статья может иметь множество комментариев,
+    # но каждый комментарий может быть оставлен только к одной статье.
+    # related_name - для обращения по post.comments.all() ( по default = _set, comment_set)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+
+    name = models.CharField(max_length=50)
+    email = models.EmailField()
+    body = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    # для скрытия некоторых комментариев
+    active = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ('created',)
+
+    def __str__(self):
+        return f'Comment by {self.name} on {self.post}'

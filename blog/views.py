@@ -2,13 +2,13 @@ from django.core.mail import send_mail
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 
-from .form import EmailPostForm
-from .models import Post
+from .form import EmailPostForm, CommentForm
+from .models import Post, Comment
 
 
 class PostListView(ListView):
     """
-    # TODO: Вариант в функциональном стиле:
+    # TODO: Вариант с использованием функций:
 
     # def post_list(request):
     #     # получаем все записи из базы данных
@@ -46,7 +46,28 @@ def post_detail(request, year, month, day, post):
                              publish__month=month,
                              publish__day=day)
 
-    return render(request, 'blog/post/detail.html', {'post': post})
+    # Список активных комментариев для этой статьи.
+    comments = post.comments.filter(active=True)
+    new_comment = None
+    if request.method == 'POST':
+        # пользователь отправил комментарий.
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Создаем комментарий, но пока не сохраняем в БД(commit=False).
+            new_comment = comment_form.save(commit=False)
+            # Привязываем комментарий к текущей статье.
+            # TODO: удалить print
+            print(f"post ================= {post}")
+            new_comment.post = post
+            # Сохраняем комментарий в базе данных.
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+
+    return render(request, 'blog/post/detail.html', {'post': post,
+                                                     'comments': comments,
+                                                     'new_comment': new_comment,
+                                                     'comment_form': comment_form})
 
 
 def post_share(request, post_id):
@@ -70,17 +91,3 @@ def post_share(request, post_id):
     else:  # Вариант если GET отправляем пустую форму
         form = EmailPostForm()
     return render(request, 'blog/post/share.html', {'post': post, 'form': form, 'sent': sent})
-
-
-
-
-
-
-
-
-
-
-
-
-
-

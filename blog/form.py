@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 
 class EmailPostForm(forms.Form):
@@ -6,3 +7,13 @@ class EmailPostForm(forms.Form):
     email = forms.EmailField()
     to = forms.EmailField()
     comments = forms.CharField(required=False, widget=forms.Textarea)
+
+
+# Форма модели - динамически генерируемая
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        # по умолчанию форма берет все поля модели
+        fields = ('name', 'email', 'body')
+
+
