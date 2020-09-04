@@ -44,9 +44,10 @@ class Post(models.Model):
     published = PublishManager()
 
     def get_absolute_url(self):
-        return reverse('blog:post_detail', args=[self.publish.year,
-                                                 self.publish.month,
-                                                 self.publish.day,
+        b = Post.objects.get(pk=self.pk).created.astimezone(timezone.get_current_timezone())
+        return reverse('blog:post_detail', args=[b.year,
+                                                 b.month,
+                                                 b.day,
                                                  self.slug])
 
     class Meta:
