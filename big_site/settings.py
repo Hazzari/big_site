@@ -60,6 +60,7 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    'django.contrib.postgres',
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'django.contrib.admin',
