@@ -111,3 +111,15 @@ input[type=submit] {
     font-size: 12px;
     color: #666;
 }
+
+.show-last-post {
+    box-sizing: border-box;
+    margin: 0 10px;
+    text-align: left;
+}
+
+.most_commented_posts {
+    box-sizing: border-box;
+    margin: 0 10px;
+    text-align: left;
+}
