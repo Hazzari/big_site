@@ -1,5 +1,7 @@
 from django import template
 from django.db.models import Count
+from django.utils.safestring import mark_safe
+import markdown
 
 from ..models import Post
 
@@ -35,5 +37,9 @@ def get_most_commented_posts(count=5):
     # annotate() - добавляем к каждой статье количества комментариев.
     # Count - используется в качестве функции агрегации,
     # которая вычисляет количество комментариев total_comments
-
     return Post.published.annotate(total_comments=Count('comments')).order_by('-total_comments')[:count]
+
+
+@register.filter(name='markdown')
+def markdown_format(text):
+    return mark_safe(markdown.markdown(text))

@@ -1,9 +1,10 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 {% load tz %}
 {% block title %}My blog{% endblock title %}
 {% block content %}
 
-    <div  class="post-title"><h1> My blog </h1></div>
+    <div class="post-title"><h1> My blog </h1></div>
     {% if tag %}
         <h2>Post tagged with "{{ tag.name }}"</h2>
     {% endif %}
@@ -14,7 +15,7 @@
         {% timezone "Europe/Moscow" %}
 
             <p class="date">Published {{ post.publish }} by {{ post.author }}</p>
-            {{ post.body|truncatewords:30|linebreaks }}
+            {{ post.body|markdown|truncatewords_html:30 }}
             <p class="tags">
                 {#            Tags: {{ post.tags.all|join:", " }}#}
                 Tags:

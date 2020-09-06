@@ -1,9 +1,10 @@
 {% extends 'blog/base.html' %}
+{% load blog_tags %}
 {% block title %} {{ post.title }} {% endblock %}
 {% block content %}
     <h1>{{ post.title }}</h1>
     <p class="date">Опубликован{{ post.publish }} автор - {{ post.author|upper }}</p>
-    {{ post.body|linebreaks }}
+    {{ post.body|markdown }}
     <p>
         <a href="{% url 'blog:post_share' post.id %}">Share this post</a>
     </p>
@@ -18,7 +19,6 @@
             </p>
         </div>
     {% empty %}
-        {% comment %}Если список коментов пуст, тогда выводим строку{% endcomment %}
         <p>There are no comments yet.</p>
     {% endfor %}
 
