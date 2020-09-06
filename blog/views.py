@@ -2,7 +2,7 @@ from django.core.mail import send_mail
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Count
 from django.shortcuts import render, get_object_or_404
-from django.contrib.postgres.search import SearchVector
+from django.contrib.postgres.search import SearchVector, SearchQuery, SearchRank
 
 from taggit.models import Tag
 
@@ -18,11 +18,7 @@ def post_search(request):
         form = SearchForm(request.GET)
     if form.is_valid():
         query = form.cleaned_data['query']
-        print(query)
-
         results = Post.objects.annotate(search=SearchVector('title', 'body')).filter(search=query)
-        print(results)
-        print()
 
     return render(request, 'blog/post/search.html', {'form': form,
                                                      'query': query,
