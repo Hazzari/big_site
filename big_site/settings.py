@@ -60,6 +60,8 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 SITE_ID = 1
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
+    'blog.apps.BlogConfig',
     'django.contrib.postgres',
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -69,7 +71,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'blog.apps.BlogConfig',
     'taggit',
 
 ]

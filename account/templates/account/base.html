@@ -1,0 +1,13 @@
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <title>{% block title %} {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'account/css/base.css' %} ">
+</head>
+<body>
+
+<div id="header"><span class="logo">Bookmarks</span></div>
+<div id="content">{% block content %}<h1>override me!</h1>{% endblock %}</div>
+</body>
+</html>
