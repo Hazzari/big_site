@@ -55,6 +55,14 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 # ## РАЗДЕЛ РАБОТЫ С .env КОНЕЦ
 
+# ## Редиректы
+
+LOGIN_REDIRECT_URL = 'account:dashboard'  # При успешной авторизации, если не указан GRT параметр next.
+LOGIN_URL = 'account:login'  # перенаправление после login например из обработчиков с декоратором login_required.
+LOGOUT_URL = 'account:logout'  # куда пользователь перейдет после выхода из аккаунта
+# ## Редиректы end
+
+
 # Application definition
 
 SITE_ID = 1
