@@ -8,7 +8,7 @@ from .models import Post, Comment
 # admin.site.register(Post)
 # 2).
 @admin.register(Post)
-class Admin(admin.ModelAdmin):
+class PostAdmin(admin.ModelAdmin):
     # Отображает заголовки колонок
     list_display = ('title', 'slug', 'author', 'publish', 'status',)
     # Добавляет сбоку фильтр по категориям
