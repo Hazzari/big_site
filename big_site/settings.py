@@ -154,3 +154,5 @@ STATICFILES_DIRS = [
     environ.os.path.join(BASE_DIR, "static"),
     # '/var/www/static/',
 ]
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
