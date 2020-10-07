@@ -1,0 +1,9 @@
+{% extends "account/base.html" %}
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
+    <h1>Create in account</h1>
+    <p>Welcome {{ new_user.first_name }}!</p>
+    <p>Your account has been successfully created.
+        Now you can <a href="{% url "account:login" %}">Log in</a>.</p>
+{% endblock %}

@@ -55,13 +55,6 @@ EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 # ## РАЗДЕЛ РАБОТЫ С .env КОНЕЦ
 
-# ## Редиректы
-
-LOGIN_REDIRECT_URL = 'account:dashboard'  # При успешной авторизации, если не указан GRT параметр next.
-LOGIN_URL = 'account:login'  # перенаправление после login например из обработчиков с декоратором login_required.
-LOGOUT_URL = 'account:logout'  # куда пользователь перейдет после выхода из аккаунта
-# ## Редиректы end
-
 
 # Application definition
 
@@ -69,7 +62,6 @@ SITE_ID = 1
 
 INSTALLED_APPS = [
     'account.apps.AccountConfig',
-    'blog.apps.BlogConfig',
     'django.contrib.postgres',
     'django.contrib.sites',
     'django.contrib.sitemaps',
@@ -79,6 +71,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'blog.apps.BlogConfig',
     'taggit',
 
 ]
@@ -146,13 +139,22 @@ USE_L10N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+# https://docs.djangoproject.com/en/dev/howto/static-files/
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     environ.os.path.join(BASE_DIR, "static"),
     # '/var/www/static/',
 ]
+# STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# ## Редиректы
+LOGIN_REDIRECT_URL = 'account:dashboard'  # При успешной авторизации, если не указан GRT параметр next.
+LOGIN_URL = 'account:login'  # перенаправление после login например из обработчиков с декоратором login_required.
+LOGOUT_URL = 'account:logout'  # куда пользователь перейдет после выхода из аккаунта
+# ## Редиректы end
